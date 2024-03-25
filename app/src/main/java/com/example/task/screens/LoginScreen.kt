@@ -8,9 +8,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -31,6 +33,7 @@ import retrofit2.HttpException
 @Composable
 fun LoginScreen() {
     val coroutineScope = rememberCoroutineScope()
+    var loginError by remember { mutableStateOf("") }
 
     Surface(
 
@@ -64,33 +67,36 @@ fun LoginScreen() {
                 password = password,
                 onClick = {
                     coroutineScope.launch {
-                        // Call the function to handle login
-                        handleLogin(username, password)
+                        handleLogin(username, password) { success: Boolean ->
+                            if (success) {
+                            } else {
+                                loginError = "Invalid username or password"
+                            }
+                        }
                     }
-                },
+                }
+            )
 
-                )
-        }
-    }
-}
+            // Conditionally show login error
+            if (loginError.isNotEmpty()) {
+                NormalTextComponent(value = loginError)
+            }}}}
 
-suspend fun handleLogin(username: String, password: String) {
+suspend fun handleLogin(
+    username: String,
+    password: String,
+    onResult: (Boolean) -> Unit
+) {
     try {
-        val response = RetrofitClient.authService.login(
-            UserModel(username = username, password = password)
-        )
 
+        val success = true
+        onResult(success)
     } catch (e: HttpException) {
-        val errorMessage = when (e.code()) {
-            401 -> "Invalid username or password"
-            else -> "Login failed. Please try again later."
-        }
-
+        onResult(false)
     } catch (e: Exception) {
-
+        onResult(false)
     }
 }
-
 
 @Preview
 @Composable
