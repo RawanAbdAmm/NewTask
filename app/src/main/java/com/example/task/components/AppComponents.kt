@@ -37,6 +37,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.task.R
+
 @Composable
 fun NormalTextComponent(value:String){
     Text(text =value,
@@ -76,12 +77,13 @@ fun HeadingTextComponent(value:String){
 @Composable
 fun MyTextField(
     labelValue: String,
-    iconId: Int, // Resource ID for the icon
+    iconId: Int,
+    text: String,
+    onTextChanged: (String) -> Unit
 ) {
-    val textValue = remember { mutableStateOf("") }
     OutlinedTextField(
         modifier = Modifier.fillMaxWidth(),
-        value = textValue.value,
+        value = text,
         label = { Text(text = labelValue) },
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = colorResource(id = R.color.colorPrimary),
@@ -91,9 +93,7 @@ fun MyTextField(
 
             ),
         keyboardOptions = KeyboardOptions.Default,
-        onValueChange = {
-            textValue.value = it
-        },
+        onValueChange = onTextChanged,
         leadingIcon = {
             Box(
                 modifier = Modifier.size(24.dp)
@@ -111,15 +111,16 @@ fun MyTextField(
 @Composable
 fun PasswordTextField(
     labelValue: String,
-    iconId: Int, // Resource ID for the icon
+    iconId: Int,
+    password: String,
+    onPasswordChanged: (String) -> Unit
 ) {
-    val password = remember { mutableStateOf("") }
     val passwordVisible= remember {
         mutableStateOf(false)
     }
     OutlinedTextField(
         modifier = Modifier.fillMaxWidth(),
-        value = password.value,
+        value = password,
         label = { Text(text = labelValue) },
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = colorResource(id = R.color.colorPrimary),
@@ -128,9 +129,7 @@ fun PasswordTextField(
             unfocusedBorderColor = colorResource(id = R.color.colorGrey)
         ),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-        onValueChange = {
-            password.value = it
-        },
+        onValueChange = onPasswordChanged,
         trailingIcon = {
             val iconImage=if(passwordVisible.value){
                 Icons.Filled.Favorite
@@ -164,31 +163,12 @@ fun PasswordTextField(
 
 
 @Composable
-fun LoginButton(){
+fun LoginButton(
+    onClick: () -> Unit,
+    username: String,
+    password: String){
     Button(
-        onClick = {
-//            val username = "example_username"
-//            val password = "example_password"
-//
-//            val credentials = Credentials(username, password)
-//
-//            viewModelScope.launch {
-//                try {
-//                    val response = authService.authenticateUser(credentials)
-//                    // Handle the response as per your application logic
-//                    if (response.isSuccessful) {
-//                        // Authentication successful
-//                        Toast.makeText(context, "Login Successful", Toast.LENGTH_SHORT).show()
-//                    } else {
-//                        // Authentication failed
-//                        Toast.makeText(context, "Login Failed", Toast.LENGTH_SHORT).show()
-//                    }
-//                } catch (e: Exception) {
-//                    // Handle exceptions
-//                    Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
-//                }
-//            }
-        },
+        onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(48.dp),
@@ -216,3 +196,7 @@ fun LoginButton(){
 
     }
 }
+
+
+
+//            val username = "example_username" //            val password = "example_password" // //            val credentials = Credentials(username, password) // //            viewModelScope.launch { //                try { //                    val response = authService.authenticateUser(credentials) //                    // Handle the response as per your application logic //                    if (response.isSuccessful) { //                        // Authentication successful //                        Toast.makeText(context, "Login Successful", Toast.LENGTH_SHORT).show() //                    } else { //                        // Authentication failed //                        Toast.makeText(context, "Login Failed", Toast.LENGTH_SHORT).show() //                    } //                } catch (e: Exception) { //                    // Handle exceptions //                    Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show() //                } //            }
