@@ -73,9 +73,7 @@ fun LoginScreen(navController: NavController) {
                         if (username.isNotBlank() && password.isNotBlank()) {
                             try {
                                 val response = RetrofitUser.authService.login(UserModel(username, password))
-                                // Check if login was successful
                                 if (response.token.isNotEmpty()) {
-                                    // Navigate to Product Screen upon successful login
                                     navController.navigate("product")
                                 } else {
                                     loginError = "Invalid username or password"
@@ -94,7 +92,6 @@ fun LoginScreen(navController: NavController) {
                 password = password
             )
 
-            // Conditionally show login error
             if (loginError.isNotEmpty()) {
                 NormalTextComponent(value = loginError)
             }

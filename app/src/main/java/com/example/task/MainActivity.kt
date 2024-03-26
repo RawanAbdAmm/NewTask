@@ -7,9 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.task.Models.Product
 import com.example.task.screens.LoginScreen
-import com.example.task.screens.ProductCard
+import com.example.task.screens.ProductScreen
 
 
 class MainActivity : ComponentActivity() {
@@ -30,7 +29,7 @@ fun MyApp() {
             LoginScreen(navController = navController)
         }
         composable("product") {
-            ProductCard()
+            ProductScreen()
         }
     }
 }
