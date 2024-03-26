@@ -32,9 +32,10 @@ import retrofit2.HttpException
 fun LoginScreen() {
     val coroutineScope = rememberCoroutineScope()
     var loginError by remember { mutableStateOf("") }
+    var username by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
 
     Surface(
-
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
@@ -46,39 +47,50 @@ fun LoginScreen() {
             NormalTextComponent(value = stringResource(id = R.string.hello))
             HeadingTextComponent(value = stringResource(id = R.string.welcome))
             Spacer(modifier = Modifier.height(50.dp))
-            val (username, setUsername) = remember { mutableStateOf("") }
-            val (password, setPassword) = remember { mutableStateOf("") }
 
             MyTextField(
-                labelValue = stringResource(id = R.string.username), iconId = R.drawable.user,
+                labelValue = stringResource(id = R.string.username),
+                iconId = R.drawable.user,
                 text = username,
-                onTextChanged = setUsername
+                onTextChanged = { newUsername -> username = newUsername }
             )
+
             PasswordTextField(
-                labelValue = stringResource(id = R.string.password), iconId = R.drawable.password,
+                labelValue = stringResource(id = R.string.password),
+                iconId = R.drawable.password,
                 password = password,
-                onPasswordChanged = setPassword
+                onPasswordChanged = { newPassword -> password = newPassword }
             )
+
             Spacer(modifier = Modifier.height(50.dp))
+
             LoginButton(
-                username = username,
-                password = password,
                 onClick = {
                     coroutineScope.launch {
-                        handleLogin(username, password) { success: Boolean ->
-                            if (success) {
-                            } else {
-                                loginError = "Invalid username or password"
+                        if (username.isNotBlank() && password.isNotBlank()) {
+                            handleLogin(username, password) { success: Boolean ->
+                                if (success) {
+                                    // Handle successful login
+                                } else {
+                                    loginError = "Invalid username or password"
+                                }
                             }
+                        } else {
+                            loginError = "Username or password cannot be empty"
                         }
                     }
-                }
+                },
+                username = username,
+                password = password
             )
 
             // Conditionally show login error
             if (loginError.isNotEmpty()) {
                 NormalTextComponent(value = loginError)
-            }}}}
+            }
+        }
+    }
+}
 
 suspend fun handleLogin(
     username: String,

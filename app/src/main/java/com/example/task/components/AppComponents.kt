@@ -19,8 +19,10 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -81,6 +83,8 @@ fun MyTextField(
     text: String,
     onTextChanged: (String) -> Unit
 ) {
+    var isErrorVisible by remember { mutableStateOf(false) }
+
     OutlinedTextField(
         modifier = Modifier.fillMaxWidth(),
         value = text,
@@ -90,10 +94,13 @@ fun MyTextField(
             focusedLabelColor = colorResource(id = R.color.colorPrimary),
             cursorColor = colorResource(id = R.color.colorPrimary),
             unfocusedBorderColor = colorResource(id = R.color.colorGrey),
-
-            ),
+        ),
         keyboardOptions = KeyboardOptions.Default,
-        onValueChange = onTextChanged,
+        isError = isErrorVisible && text.isBlank(),
+        onValueChange = { newText ->
+            onTextChanged(newText)
+            isErrorVisible = newText.isBlank()
+        },
         leadingIcon = {
             Box(
                 modifier = Modifier.size(24.dp)
@@ -107,6 +114,7 @@ fun MyTextField(
         }
     )
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PasswordTextField(
@@ -115,9 +123,9 @@ fun PasswordTextField(
     password: String,
     onPasswordChanged: (String) -> Unit
 ) {
-    val passwordVisible= remember {
-        mutableStateOf(false)
-    }
+    var isErrorVisible by remember { mutableStateOf(false) }
+
+    val passwordVisible = remember { mutableStateOf(false) }
     OutlinedTextField(
         modifier = Modifier.fillMaxWidth(),
         value = password,
@@ -129,21 +137,22 @@ fun PasswordTextField(
             unfocusedBorderColor = colorResource(id = R.color.colorGrey)
         ),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-        onValueChange = onPasswordChanged,
+        isError = isErrorVisible && password.isBlank(),
+        onValueChange = { newPassword ->
+            onPasswordChanged(newPassword)
+            isErrorVisible = newPassword.isBlank()
+        },
         trailingIcon = {
-            val iconImage=if(passwordVisible.value){
+            val iconImage = if (passwordVisible.value) {
                 Icons.Filled.Favorite
-
-            }else{
+            } else {
                 Icons.Filled.FavoriteBorder
-
             }
-            IconButton(onClick = { passwordVisible.value=!passwordVisible.value}) {
-                Icon(imageVector =iconImage , contentDescription =null )
-
+            IconButton(onClick = { passwordVisible.value = !passwordVisible.value }) {
+                Icon(imageVector = iconImage, contentDescription = null)
             }
         },
-        visualTransformation = if(passwordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
+        visualTransformation = if (passwordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
         leadingIcon = {
             Box(
                 modifier = Modifier.size(24.dp)
@@ -155,18 +164,18 @@ fun PasswordTextField(
                 )
             }
         }
-
-
     )
 }
-
 
 
 @Composable
 fun LoginButton(
     onClick: () -> Unit,
     username: String,
-    password: String){
+    password: String
+) {
+    val isButtonEnabled = username.isNotBlank() && password.isNotBlank()
+
     Button(
         onClick = onClick,
         modifier = Modifier
@@ -174,26 +183,24 @@ fun LoginButton(
             .heightIn(48.dp),
         contentPadding = PaddingValues(),
         colors = ButtonDefaults.buttonColors(Color.Transparent),
-
-        ) {
-        Box( modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(48.dp)
-            .background(
-                brush = Brush.horizontalGradient(listOf(Color.Blue, Color.White)),
-                shape = RoundedCornerShape(50.dp),
-            ),
+        enabled = isButtonEnabled
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(48.dp)
+                .background(
+                    brush = Brush.horizontalGradient(listOf(Color.Blue, Color.White)),
+                    shape = RoundedCornerShape(50.dp),
+                ),
             contentAlignment = Alignment.Center
-        ){
+        ) {
             Text(
                 text = "Login",
                 fontWeight = FontWeight.Bold,
-                fontSize = 18.sp ,
+                fontSize = 18.sp,
             )
-
         }
-
-
     }
 }
 
