@@ -20,13 +20,49 @@ import androidx.compose.ui.unit.dp
 import com.example.task.Models.Product
 import coil.compose.rememberImagePainter
 
+//@Composable
+////fun ProductCard(product: Product, onClick: () -> Unit) {
+////    Card(
+////        modifier = Modifier
+////            .fillMaxWidth()
+////            .padding(8.dp)
+////            .clickable { onClick() } // Add clickable modifier
+////
+////    ) {
+////        Row(
+////            verticalAlignment = Alignment.CenterVertically,
+////            modifier = Modifier.padding(16.dp)
+////        ) {
+////            // Load the product image
+////            val painter = rememberImagePainter(
+////                data = product.imageUrl,
+////                builder = {
+////                    crossfade(true) // Enable crossfade animation
+////                }
+////            )
+////            Image(
+////                painter = painter,
+////                contentDescription = null,
+////                contentScale = ContentScale.Crop,
+////                modifier = Modifier.size(80.dp)
+////            )
+////
+////            Spacer(modifier = Modifier.width(16.dp))
+////            Text(
+////                text = product.title,
+////                style = MaterialTheme.typography.bodyMedium,
+////                color = Color.Black
+////            )
+////        }
+////    }
+////}
 @Composable
-fun ProductCard(product: Product, onClick: () -> Unit) {
+fun ProductCard() {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
-            .clickable { onClick() } // Add clickable modifier
+
 
     ) {
         Row(
@@ -34,22 +70,11 @@ fun ProductCard(product: Product, onClick: () -> Unit) {
             modifier = Modifier.padding(16.dp)
         ) {
             // Load the product image
-            val painter = rememberImagePainter(
-                data = product.imageUrl,
-                builder = {
-                    crossfade(true) // Enable crossfade animation
-                }
-            )
-            Image(
-                painter = painter,
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.size(80.dp)
-            )
+
 
             Spacer(modifier = Modifier.width(16.dp))
             Text(
-                text = product.title,
+                text = "product.title",
                 style = MaterialTheme.typography.bodyMedium,
                 color = Color.Black
             )

@@ -18,18 +18,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.example.task.Models.UserModel
 import com.example.task.R
 import com.example.task.components.HeadingTextComponent
 import com.example.task.components.LoginButton
 import com.example.task.components.MyTextField
 import com.example.task.components.NormalTextComponent
 import com.example.task.components.PasswordTextField
+import com.example.task.helper.RetrofitUser
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(navController: NavController) {
     val coroutineScope = rememberCoroutineScope()
     var loginError by remember { mutableStateOf("") }
     var username by remember { mutableStateOf("") }
@@ -68,12 +71,19 @@ fun LoginScreen() {
                 onClick = {
                     coroutineScope.launch {
                         if (username.isNotBlank() && password.isNotBlank()) {
-                            handleLogin(username, password) { success: Boolean ->
-                                if (success) {
-                                    // Handle successful login
+                            try {
+                                val response = RetrofitUser.authService.login(UserModel(username, password))
+                                // Check if login was successful
+                                if (response.token.isNotEmpty()) {
+                                    // Navigate to Product Screen upon successful login
+                                    navController.navigate("product")
                                 } else {
                                     loginError = "Invalid username or password"
                                 }
+                            } catch (e: HttpException) {
+                                loginError = "Failed to login: ${e.message()}"
+                            } catch (e: Exception) {
+                                loginError = "An error occurred: ${e.message}"
                             }
                         } else {
                             loginError = "Username or password cannot be empty"
@@ -90,26 +100,4 @@ fun LoginScreen() {
             }
         }
     }
-}
-
-suspend fun handleLogin(
-    username: String,
-    password: String,
-    onResult: (Boolean) -> Unit
-) {
-    try {
-
-        val success = true
-        onResult(success)
-    } catch (e: HttpException) {
-        onResult(false)
-    } catch (e: Exception) {
-        onResult(false)
-    }
-}
-
-@Preview
-@Composable
-fun DefaultPreviewLogin() {
-    LoginScreen()
 }
