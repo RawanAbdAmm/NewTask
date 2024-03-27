@@ -3,7 +3,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object RetrofitUser {
+object RetrofitClient {
     private const val BASE_URL = "https://dummyjson.com/"
     private val okHttpClient = OkHttpClient.Builder().build()
     private val retrofit = Retrofit.Builder()
@@ -11,7 +11,6 @@ object RetrofitUser {
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-    val authService: AuthService = retrofit.create(AuthService::class.java)
+
+    val productService: ProductService = retrofit.create(ProductService::class.java)
 }
-
-
