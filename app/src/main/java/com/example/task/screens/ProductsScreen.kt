@@ -45,7 +45,7 @@ fun ProductListScreen() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Welcome!", color = Color.Blue, fontSize = 24.sp)
+        Text(text = "Welcome!", color = Color.Blue, fontSize = 35.sp)
         Spacer(modifier = Modifier.height(16.dp))
         ProductList(productsState.value)
     }

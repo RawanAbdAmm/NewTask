@@ -1,6 +1,8 @@
 package com.example.task.components
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -8,15 +10,17 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -33,8 +37,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -44,6 +50,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
@@ -154,9 +161,9 @@ fun PasswordTextField(
         },
         trailingIcon = {
             val iconImage = if (passwordVisible.value) {
-                Icons.Filled.Favorite
+                Icons.Filled.Visibility
             } else {
-                Icons.Filled.FavoriteBorder
+                Icons.Filled.VisibilityOff
             }
             IconButton(onClick = { passwordVisible.value = !passwordVisible.value }) {
                 Icon(imageVector = iconImage, contentDescription = null)
@@ -222,21 +229,41 @@ fun ProductItem(product: Product) {
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
-            .clickable { /* Handle item click */ }
+            .clickable {  }
+            .border(BorderStroke(1.dp, Color.Blue))
+
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.Top
         ) {
-            Image(
-                painter = rememberImagePainter(product.images),
-                contentDescription = null,
-                modifier = Modifier.size(64.dp)
-            )
-            Spacer(modifier = Modifier.width(16.dp))
+            Box(
+                modifier = Modifier
+                    .size(100.dp)
+                    .clip(CircleShape)
+            ) {
+                Image(
+                    painter = rememberImagePainter(product.images[0]),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(100.dp)
+                        .align(Alignment.Center),
+                    contentScale = ContentScale.FillBounds
+
+                )
+            }
+            Spacer(modifier = Modifier.width(20.dp))
             Column {
-                Text(text = product.title)
-                Text(text = product.description)
+                Text(
+                    text = product.title,
+                    color = Color.Blue,
+                    fontSize = 20.sp
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+
+                Text(text = product.description,fontSize = 15.sp,
+                    overflow = TextOverflow.Ellipsis
+                )
             }
         }
     }
