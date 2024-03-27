@@ -13,3 +13,4 @@ data class Product(
     val thumbnail: String,
     val images: List<String>
 )
+data class ProductResponse(val products: List<Product>)
