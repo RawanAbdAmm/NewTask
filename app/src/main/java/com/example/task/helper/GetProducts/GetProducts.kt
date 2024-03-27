@@ -1,4 +1,4 @@
-package com.example.task.helper
+package com.example.task.helper.GetProducts
 import com.example.task.Models.Product
 import com.example.task.Models.ProductResponse
 import retrofit2.http.GET

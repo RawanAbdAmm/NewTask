@@ -1,4 +1,4 @@
-package com.example.task.helper
+package com.example.task.helper.UserAuth
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

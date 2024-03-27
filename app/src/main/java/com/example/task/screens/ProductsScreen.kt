@@ -21,7 +21,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.sp
 import com.example.task.Models.Product
 import com.example.task.components.ProductItem
-import com.example.task.helper.RetrofitClient
+import com.example.task.helper.GetProducts.RetrofitProducts
 
 @Composable
 fun ProductListScreen() {
@@ -30,7 +30,7 @@ fun ProductListScreen() {
 
     LaunchedEffect(Unit) {
         try {
-            val productResponse = RetrofitClient.productService.getProducts()
+            val productResponse = RetrofitProducts.productService.getProducts()
             productsState.value = productResponse.products
         } catch (e: Exception) {
             Toast.makeText(context, "Error fetching products: ${e.message}", Toast.LENGTH_SHORT).show()

@@ -1,4 +1,4 @@
-package com.example.task.helper
+package com.example.task.helper.UserAuth
 import com.example.task.Models.LoginResponse
 import com.example.task.Models.UserModel
 import retrofit2.http.Body

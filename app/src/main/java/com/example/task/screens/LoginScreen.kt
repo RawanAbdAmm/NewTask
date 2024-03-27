@@ -25,7 +25,7 @@ import com.example.task.components.LoginButton
 import com.example.task.components.MyTextField
 import com.example.task.components.NormalTextComponent
 import com.example.task.components.PasswordTextField
-import com.example.task.helper.RetrofitUser
+import com.example.task.helper.UserAuth.RetrofitUser
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
