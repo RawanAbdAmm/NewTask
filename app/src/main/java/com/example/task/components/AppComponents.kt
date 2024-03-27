@@ -224,12 +224,12 @@ fun LoginButton(
 
 
 @Composable
-fun ProductItem(product: Product) {
+fun ProductItem(product: Product, onItemClick: (Int) -> Unit) {
     Card(
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
-            .clickable {  }
+            .clickable { onItemClick(product.id) }
             .border(BorderStroke(1.dp, Color.Blue))
 
     ) {
