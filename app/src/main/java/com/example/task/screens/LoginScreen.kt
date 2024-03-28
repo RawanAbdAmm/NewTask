@@ -1,5 +1,6 @@
 package com.example.task.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -15,6 +16,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -23,7 +25,6 @@ import com.example.task.R
 import com.example.task.components.HeadingTextComponent
 import com.example.task.components.LoginButton
 import com.example.task.components.MyTextField
-import com.example.task.components.NormalTextComponent
 import com.example.task.components.PasswordTextField
 import com.example.task.helper.UserAuth.RetrofitUser
 import kotlinx.coroutines.launch
@@ -33,9 +34,9 @@ import retrofit2.HttpException
 @Composable
 fun LoginScreen(navController: NavController) {
     val coroutineScope = rememberCoroutineScope()
-    var loginError by remember { mutableStateOf("") }
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    val context = LocalContext.current
 
     Surface(
         modifier = Modifier
@@ -46,9 +47,9 @@ fun LoginScreen(navController: NavController) {
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-            NormalTextComponent(value = stringResource(id = R.string.hello))
-            HeadingTextComponent(value = stringResource(id = R.string.welcome))
-            Spacer(modifier = Modifier.height(50.dp))
+            Spacer(modifier = Modifier.height(80.dp))
+            HeadingTextComponent(value = stringResource(id = R.string.login_screen))
+            Spacer(modifier = Modifier.height(70.dp))
 
             MyTextField(
                 labelValue = stringResource(id = R.string.username),
@@ -56,7 +57,7 @@ fun LoginScreen(navController: NavController) {
                 text = username,
                 onTextChanged = { newUsername -> username = newUsername }
             )
-
+            Spacer(modifier = Modifier.height(20.dp))
             PasswordTextField(
                 labelValue = stringResource(id = R.string.password),
                 iconId = R.drawable.password,
@@ -64,7 +65,7 @@ fun LoginScreen(navController: NavController) {
                 onPasswordChanged = { newPassword -> password = newPassword }
             )
 
-            Spacer(modifier = Modifier.height(50.dp))
+            Spacer(modifier = Modifier.height(30.dp))
 
             LoginButton(
                 onClick = {
@@ -73,17 +74,20 @@ fun LoginScreen(navController: NavController) {
                             try {
                                 val response = RetrofitUser.authService.login(UserModel(username, password))
                                 if (response.token.isNotEmpty()) {
+                                    navController.graph.startDestinationRoute?.let {
+                                        navController.popBackStack(
+                                            it, inclusive = true)
+                                    }
                                     navController.navigate("productList")
                                 } else {
-                                    loginError = "Invalid username or password"
+                                    Toast.makeText(context, "Invalid username or password", Toast.LENGTH_SHORT).show()
                                 }
                             } catch (e: HttpException) {
-                                loginError = "Failed to login: ${e.message()}"
+                                Toast.makeText(context, "Invalid username or password", Toast.LENGTH_SHORT).show()
+
                             } catch (e: Exception) {
-                                loginError = "An error occurred: ${e.message}"
+                                Toast.makeText(context, "An error occurred: ${e.message}", Toast.LENGTH_SHORT).show()
                             }
-                        } else {
-                            loginError = "Username or password cannot be empty"
                         }
                     }
                 },
@@ -91,9 +95,6 @@ fun LoginScreen(navController: NavController) {
                 password = password
             )
 
-            if (loginError.isNotEmpty()) {
-                NormalTextComponent(value = loginError)
-            }
         }
     }
 }

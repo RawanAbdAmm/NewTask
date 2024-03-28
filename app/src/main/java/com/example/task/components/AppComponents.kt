@@ -57,23 +57,7 @@ import coil.compose.rememberImagePainter
 import com.example.task.Models.Product
 import com.example.task.R
 
-@Composable
-fun NormalTextComponent(value:String){
-    Text(text =value,
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 40.dp),
-        style= TextStyle(
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Normal,
-            fontStyle = FontStyle.Normal,
-        ),
-        color= colorResource(id = R.color.colorText),
-        textAlign = TextAlign.Center
 
-    )
-
-}
 @Composable
 fun HeadingTextComponent(value:String){
     Text(text =value,
@@ -85,7 +69,7 @@ fun HeadingTextComponent(value:String){
             fontWeight = FontWeight.Bold,
             fontStyle = FontStyle.Normal,
         ),
-        color= colorResource(id = R.color.colorText),
+        color= colorResource(id = R.color.colorPrimary),
         textAlign = TextAlign.Center
     )
 
@@ -197,29 +181,21 @@ fun LoginButton(
         onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
-            .heightIn(48.dp),
+            .heightIn(48.dp)
+            ,
         contentPadding = PaddingValues(),
-        colors = ButtonDefaults.buttonColors(Color.Transparent),
-        enabled = isButtonEnabled
+        enabled = isButtonEnabled,
+
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .heightIn(48.dp)
-                .background(
-                    brush = Brush.horizontalGradient(listOf(Color.Blue, Color.White)),
-                    shape = RoundedCornerShape(50.dp),
-                ),
-            contentAlignment = Alignment.Center
-        ) {
             Text(
-                text = "Login",
+                text = "Sign in",
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp,
+                color = Color.White
             )
         }
     }
-}
+
 
 
 
