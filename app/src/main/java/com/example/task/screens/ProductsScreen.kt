@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.task.Models.Product
@@ -25,11 +26,11 @@ fun ProductListScreen(navController: NavController, products: List<Product>) {
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.Start
     ) {
-        Text(text = "Welcome!", color = Color.Blue, fontSize = 35.sp)
-        Spacer(modifier = Modifier.height(16.dp))
+        Text(text = "Welcome!", color = Color.Blue, fontSize = 40.sp, fontWeight = FontWeight.Bold)
+        Spacer(modifier = Modifier.height(20.dp))
         ProductList(products = products) { productId ->
 
             navController.navigate("product/$productId")

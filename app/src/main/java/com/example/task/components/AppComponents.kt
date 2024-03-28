@@ -1,7 +1,6 @@
 package com.example.task.components
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -38,7 +37,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
@@ -176,6 +174,7 @@ fun LoginButton(
     password: String
 ) {
     val isButtonEnabled = username.isNotBlank() && password.isNotBlank()
+    val primaryColor = colorResource(id = R.color.colorPrimary)
 
     Button(
         onClick = onClick,
@@ -185,7 +184,8 @@ fun LoginButton(
             ,
         contentPadding = PaddingValues(),
         enabled = isButtonEnabled,
-
+       colors = ButtonDefaults.buttonColors(primaryColor),
+        shape = RoundedCornerShape(20)
     ) {
             Text(
                 text = "Sign in",
@@ -206,7 +206,8 @@ fun ProductItem(product: Product, onItemClick: (Int) -> Unit) {
             .padding(8.dp)
             .fillMaxWidth()
             .clickable { onItemClick(product.id) }
-            .border(BorderStroke(1.dp, Color.Blue))
+            .border(BorderStroke(2.dp, Color.Blue), RoundedCornerShape(10))
+            .clip(shape = RoundedCornerShape(10))
 
     ) {
         Row(
@@ -233,14 +234,46 @@ fun ProductItem(product: Product, onItemClick: (Int) -> Unit) {
                 Text(
                     text = product.title,
                     color = Color.Blue,
-                    fontSize = 20.sp
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
                 )
                 Spacer(modifier = Modifier.height(10.dp))
 
-                Text(text = product.description,fontSize = 15.sp,
-                    overflow = TextOverflow.Ellipsis
-                )
+                Box(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = product.description,
+                        fontSize = 15.sp,
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 2,
+                        fontWeight = FontWeight.Medium,
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
+                }
             }
         }
     }
 }
+@Composable
+fun ProductInfoRow(text: String,value: String) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Text(
+            text =text,
+            fontSize = 20.sp,
+            color = colorResource(id = R.color.colorPrimary),
+            fontWeight = FontWeight.Bold,
+
+            )
+        Text(
+            text = value,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Normal,
+            color = colorResource(id = R.color.colorSecondary),
+
+            )
+    }
+}
+
+
+

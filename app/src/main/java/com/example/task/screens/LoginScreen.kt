@@ -74,10 +74,10 @@ fun LoginScreen(navController: NavController) {
                             try {
                                 val response = RetrofitUser.authService.login(UserModel(username, password))
                                 if (response.token.isNotEmpty()) {
-                                    navController.graph.startDestinationRoute?.let {
-                                        navController.popBackStack(
-                                            it, inclusive = true)
-                                    }
+//                                    navController.graph.startDestinationRoute?.let {
+//                                        navController.popBackStack(
+//                                            it, inclusive = true)
+//                                    }
                                     navController.navigate("productList")
                                 } else {
                                     Toast.makeText(context, "Invalid username or password", Toast.LENGTH_SHORT).show()
