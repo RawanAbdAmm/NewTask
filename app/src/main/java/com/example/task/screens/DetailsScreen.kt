@@ -67,7 +67,7 @@ fun ProductDetailsScreen(navController: NavController, product: Product) {
         Spacer(modifier = Modifier.height(25.dp))
 
         Button(
-            onClick = { navController.navigate("productList") },
+            onClick = { navController.popBackStack() },
             modifier = Modifier.fillMaxWidth(),
             content = {
                 Text(

@@ -1,4 +1,5 @@
 package com.example.task.helper.UserAuth
+import com.example.task.helper.GetProducts.ProductService
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -12,6 +13,7 @@ object RetrofitUser {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
     val authService: AuthService = retrofit.create(AuthService::class.java)
+    val productService: ProductService = retrofit.create(ProductService::class.java)
 }
 
 

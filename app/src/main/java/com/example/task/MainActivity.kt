@@ -9,12 +9,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
-import androidx.navigation.NavOptions
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.task.Models.Product
-import com.example.task.helper.GetProducts.RetrofitProducts
+import com.example.task.helper.UserAuth.RetrofitUser.productService
 import com.example.task.screens.LoginScreen
 import com.example.task.screens.ProductDetailsScreen
 import com.example.task.screens.ProductListScreen
@@ -37,7 +36,7 @@ fun MyApp() {
 
     LaunchedEffect(Unit) {
         try {
-            val productResponse = RetrofitProducts.productService.getProducts()
+            val productResponse = productService.getProducts()
             setProductsState(productResponse.products)
         } catch (e: Exception) {
             Toast.makeText(context, "Error fetching products: ${e.message}", Toast.LENGTH_SHORT).show()
